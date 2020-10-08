@@ -40,5 +40,15 @@ RSpec.describe "banks api" do
       branch = JSON.parse(response.body)["branches"].sample
       expect(branch).to include("code", "name", "kana", "hira", "roma")
     end
+
+    it "caches view fragments", :perform_caching do
+      allow(Rails.cache).to receive(:write).and_call_original
+
+      bank = ZenginCode::Bank.all.values.sample
+      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+
+      expect(Rails.cache).
+        to have_received(:write).exactly(bank.branches.size + 1).times
+    end
   end
 end
