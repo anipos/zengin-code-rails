@@ -20,4 +20,5 @@ jobs:
           key: bundler-v1567765223
           paths:
             - vendor/bundle
+      - ruby/rubocop-check
       - ruby/rspec-test
