@@ -1,0 +1,29 @@
+version: '3.7'
+
+x-ruby: &ruby
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  volumes:
+    - ./:/app
+    # Saving gems to volume makes bundle install faster (from the second time
+    # on).
+    - bundler_volume:/usr/local/bundle
+
+services:
+  ruby:
+    <<: *ruby
+    command:
+      - irb
+    # For binding.pry.
+    tty: true
+    stdin_open: true
+
+  bundler:
+    <<: *ruby
+    command:
+      - bundle
+      - install
+
+volumes:
+  bundler_volume:
