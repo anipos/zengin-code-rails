@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-json.banks @banks do |bank|
-  json.partial! bank
+json.cache! @banks do
+  json.banks @banks do |bank|
+    json.partial! bank
+  end
 end

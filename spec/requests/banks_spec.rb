@@ -30,5 +30,14 @@ RSpec.describe "banks api" do
 
       expect(bank).to include("code", "name", "kana", "hira", "roma")
     end
+
+    it "caches view fragments", :perform_caching do
+      allow(Rails.cache).to receive(:write).and_call_original
+
+      get "/zengin_code_rails/banks.json"
+
+      expect(Rails.cache).
+        to have_received(:write).exactly(ZenginCode::Bank.all.size + 1).times
+    end
   end
 end

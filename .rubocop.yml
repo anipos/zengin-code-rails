@@ -17,5 +17,8 @@ Metrics/BlockLength:
   ExcludedMethods:
     - describe
 
-Metrics/BlockDelimiters:
+Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
