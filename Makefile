@@ -23,7 +23,7 @@ test:
 	$(.RUN_CONTEXT) rspec
 
 rubocop:
-	$(.RUN_CONTEXT) rubocop --auto-correct
+	$(.RUN_CONTEXT) rubocop -A
 
 bundle/install:
 	$(.RUN_CONTEXT) bundle install
