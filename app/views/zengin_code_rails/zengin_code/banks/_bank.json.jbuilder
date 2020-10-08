@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.cache! bank.code do
-  json.call(
+  json.extract!(
     bank,
     :code,
     :name,
