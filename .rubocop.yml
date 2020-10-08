@@ -12,3 +12,10 @@ Style/StringLiterals:
 RSpec/DescribeClass:
   Exclude:
     - spec/requests/*
+
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+
+Metrics/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
