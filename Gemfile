@@ -9,6 +9,7 @@ gem "rake", "~> 12.0"
 
 gem "rspec", "~> 3.0"
 gem "rspec_junit_formatter"
+gem "rspec-rails"
 
 gem "rubocop"
 gem "rubocop-performance"

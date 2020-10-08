@@ -8,3 +8,7 @@ AllCops:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/requests/*

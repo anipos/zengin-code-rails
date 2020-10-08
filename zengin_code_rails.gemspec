@@ -14,4 +14,8 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["README.md", "LICENSE", "{app,config,lib}/**/*"]
   spec.require_paths = ["lib"]
+
+  spec.add_dependency "jbuilder"
+  spec.add_dependency "rails"
+  spec.add_dependency "zengin_code"
 end
