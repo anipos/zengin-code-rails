@@ -10,15 +10,6 @@ jobs:
     executor: ruby/default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - bundler-v1567765223
-      - run:
-          name: Bundle Install
-          command: bundle check --path vendor/bundle || bundle install
-      - save_cache:
-          key: bundler-v1567765223
-          paths:
-            - vendor/bundle
+      - ruby/install-deps
       - ruby/rubocop-check
       - ruby/rspec-test
