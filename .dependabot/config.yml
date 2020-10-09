@@ -1,0 +1,11 @@
+# https://dependabot.com/docs/config-file/
+# https://dependabot.com/docs/config-file/validator/
+version: 1
+
+update_configs:
+  - package_manager: "ruby:bundler"
+    directory: "/"
+    update_schedule: "live"
+    automerged_updates:
+      - match:
+          update_type: "all"
