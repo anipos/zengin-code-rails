@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "banks api" do
+RSpec.describe "branches api" do
   describe "index" do
     subject(:res) do
       get "/zengin_code_rails/banks/#{bank.code}/branches.json"
