@@ -42,14 +42,28 @@ RSpec.describe "branches api" do
       end
     end
 
-    it "caches view fragments", :perform_caching do
-      allow(Rails.cache).to receive(:write).and_call_original
+    describe "caching" do
+      it "caches view fragments", :perform_caching do
+        allow(Rails.cache).to receive(:write).and_call_original
 
-      bank = ZenginCode::Bank.all.values.sample
-      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+        bank = ZenginCode::Bank.all.values.sample
+        get "/zengin_code_rails/banks/#{bank.code}/branches.json"
 
-      expect(Rails.cache).
-        to have_received(:write).exactly(bank.branches.size + 1).times
+        expect(Rails.cache).
+          to have_received(:write).exactly(bank.branches.size + 1).times
+      end
+
+      it "correctly cached", :perform_caching do # rubocop:disable RSpec/ExampleLength
+        ZenginCode::Bank.all.values.sample(1000) do |bank|
+          get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+        end
+
+        ZenginCode::Bank.all.values.shuffle.each do |bank|
+          get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+          branches = JSON.parse(response.body)["branches"]
+          expect(branches.size).to eq(bank.branches.size)
+        end
+      end
     end
   end
 end
