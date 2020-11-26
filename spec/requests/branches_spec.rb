@@ -2,43 +2,44 @@
 
 require "rails_helper"
 
-RSpec.describe "banks api" do
+RSpec.describe "branches api" do
   describe "index" do
-    it "returns 200 ok" do
-      bank = ZenginCode::Bank.all.values.sample
+    subject(:res) do
       get "/zengin_code_rails/banks/#{bank.code}/branches.json"
-
-      expect(response).to have_http_status(:ok)
+      response
     end
 
-    it "returns 404 not found when bank not found" do
-      expect {
-        get "/zengin_code_rails/banks/imaginary-bank-code/branches.json"
-      }.to raise_error(ActionController::RoutingError)
+    context "with undefined bank code" do
+      let(:bank) { OpenStruct.new(code: "imaginary-bank-code") }
+
+      it "returns 404 not found when bank not found" do
+        expect { res }.to raise_error(ActionController::RoutingError)
+      end
     end
 
-    it "contains branches keys" do
-      bank = ZenginCode::Bank.all.values.sample
-      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+    ZenginCode::Bank.all.each_value do |bank|
+      context "with bank #{bank.name}" do
+        let(:bank) { bank }
 
-      json = JSON.parse(response.body)
-      expect(json).to include("branches")
-    end
+        it "returns 200 ok" do
+          expect(res).to have_http_status(:ok)
+        end
 
-    it "returns all branches" do
-      bank = ZenginCode::Bank.all.values.sample
-      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+        it "contains branches keys" do
+          json = JSON.parse(res.body)
+          expect(json).to include("branches")
+        end
 
-      branches = JSON.parse(response.body)["branches"]
-      expect(branches.size).to eq(bank.branches.size)
-    end
+        it "returns all branches" do
+          branches = JSON.parse(res.body)["branches"]
+          expect(branches.size).to eq(bank.branches.size)
+        end
 
-    it "returns all branch attributes" do
-      bank = ZenginCode::Bank.all.values.sample
-      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
-
-      branch = JSON.parse(response.body)["branches"].sample
-      expect(branch).to include("code", "name", "kana", "hira", "roma")
+        it "returns all branch attributes" do
+          branch = JSON.parse(res.body)["branches"].sample
+          expect(branch).to include("code", "name", "kana", "hira", "roma")
+        end
+      end
     end
 
     it "caches view fragments", :perform_caching do
