@@ -17,7 +17,7 @@ module ZenginCode
     include ActiveModel::Model
 
     def cache_key
-      ZENGIN_CODE_VERSION + code
+      ZENGIN_CODE_VERSION + bank.code + code
     end
   end
 end
