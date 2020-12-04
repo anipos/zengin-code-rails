@@ -2,44 +2,43 @@
 
 require "rails_helper"
 
-RSpec.describe "branches api" do
+RSpec.describe "banks api" do
   describe "index" do
-    subject(:res) do
+    it "returns 200 ok" do
+      bank = ZenginCode::Bank.all.values.sample
       get "/zengin_code_rails/banks/#{bank.code}/branches.json"
-      response
+
+      expect(response).to have_http_status(:ok)
     end
 
-    context "with undefined bank code" do
-      let(:bank) { OpenStruct.new(code: "imaginary-bank-code") }
-
-      it "returns 404 not found when bank not found" do
-        expect { res }.to raise_error(ActionController::RoutingError)
-      end
+    it "returns 404 not found when bank not found" do
+      expect {
+        get "/zengin_code_rails/banks/imaginary-bank-code/branches.json"
+      }.to raise_error(ActionController::RoutingError)
     end
 
-    ZenginCode::Bank.all.each_value do |bank|
-      context "with bank #{bank.name}" do
-        let(:bank) { bank }
+    it "contains branches keys" do
+      bank = ZenginCode::Bank.all.values.sample
+      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
 
-        it "returns 200 ok" do
-          expect(res).to have_http_status(:ok)
-        end
+      json = JSON.parse(response.body)
+      expect(json).to include("branches")
+    end
 
-        it "contains branches keys" do
-          json = JSON.parse(res.body)
-          expect(json).to include("branches")
-        end
+    it "returns all branches" do
+      bank = ZenginCode::Bank.all.values.sample
+      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
 
-        it "returns all branches" do
-          branches = JSON.parse(res.body)["branches"]
-          expect(branches.size).to eq(bank.branches.size)
-        end
+      branches = JSON.parse(response.body)["branches"]
+      expect(branches.size).to eq(bank.branches.size)
+    end
 
-        it "returns all branch attributes" do
-          branch = JSON.parse(res.body)["branches"].sample
-          expect(branch).to include("code", "name", "kana", "hira", "roma")
-        end
-      end
+    it "returns all branch attributes" do
+      bank = ZenginCode::Bank.all.values.sample
+      get "/zengin_code_rails/banks/#{bank.code}/branches.json"
+
+      branch = JSON.parse(response.body)["branches"].sample
+      expect(branch).to include("code", "name", "kana", "hira", "roma")
     end
 
     it "caches view fragments", :perform_caching do
