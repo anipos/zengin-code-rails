@@ -13,6 +13,9 @@ RSpec/DescribeClass:
   Exclude:
     - spec/requests/*
 
+RSpec/ExampleLength:
+  Max: 10
+
 Metrics/BlockLength:
   ExcludedMethods:
     - describe
