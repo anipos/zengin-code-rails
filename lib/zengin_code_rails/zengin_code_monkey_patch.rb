@@ -9,7 +9,7 @@ module ZenginCode
     include ActiveModel::Model
 
     def cache_key
-      ZENGIN_CODE_VERSION + code
+      "zengin_code/bank/#{ZENGIN_CODE_VERSION}#{code}"
     end
   end
 
@@ -17,7 +17,7 @@ module ZenginCode
     include ActiveModel::Model
 
     def cache_key
-      ZENGIN_CODE_VERSION + bank.code + code
+      "zengin_code/branch/#{ZENGIN_CODE_VERSION}#{bank.code}#{code}"
     end
   end
 end
