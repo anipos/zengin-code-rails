@@ -11,5 +11,10 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
+      - run:
+          command: |
+            git --no-pager diff HEAD
+            git status
+            test -z "$(git status --porcelain)"
       - ruby/rubocop-check
       - ruby/rspec-test
