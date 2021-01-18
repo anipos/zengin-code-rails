@@ -5,8 +5,6 @@ orbs:
 
 jobs:
   build:
-    docker:
-      - image: cimg/ruby:2.7.2
     executor: ruby/default
     steps:
       - checkout
@@ -18,3 +16,25 @@ jobs:
             test -z "$(git status --porcelain)"
       - ruby/rubocop-check
       - ruby/rspec-test
+
+  publish:
+    executor: ruby/default
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          command: gem build
+      - run:
+          command: gem push zengin_code_rails-*.gem
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - build
+      - publish:
+          filters:
+            tags:
+              only: /^v(\d).(\d).(\d)$/
+            branches:
+              ignore: /.*/
