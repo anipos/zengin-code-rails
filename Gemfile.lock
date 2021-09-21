@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zengin_code_rails (0.4.8)
+    zengin_code_rails (0.4.9)
       jbuilder
       rails (~> 6.0)
       zengin_code
