@@ -17,7 +17,7 @@ RSpec/ExampleLength:
   Max: 10
 
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - describe
 
 Style/BlockDelimiters:
