@@ -3,6 +3,7 @@
 require "zengin_code"
 
 require "active_model"
+require "action_view"
 require "rails"
 
 # Make sure to require jbuilder after rails.
