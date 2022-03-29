@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "zengin_code_rails"
-  spec.version       = "0.4.15"
+  spec.version       = "0.4.16"
   spec.authors       = ["Shouichi Kamiya"]
   spec.email         = ["shouichi.kamiya@gmail.com"]
 
