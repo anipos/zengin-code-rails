@@ -25,3 +25,6 @@ Style/BlockDelimiters:
 
 Layout/DotPosition:
   EnforcedStyle: trailing
+
+Style/FetchEnvVar:
+  Enabled: false
