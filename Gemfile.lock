@@ -207,7 +207,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.5.4)
-    zengin_code (1.0.1.20220425)
+    zengin_code (1.0.1.20220530)
 
 PLATFORMS
   ruby
