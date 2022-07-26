@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zengin_code_rails (0.4.20)
+    zengin_code_rails (0.4.21)
       jbuilder
       rails (>= 6, < 8)
       zengin_code
@@ -199,7 +199,7 @@ GEM
     rubocop-rspec (2.12.1)
       rubocop (~> 1.31)
     ruby-progressbar (1.11.0)
-    strscan (3.0.3)
+    strscan (3.0.4)
     thor (1.2.1)
     timeout (0.3.0)
     tzinfo (2.0.4)
