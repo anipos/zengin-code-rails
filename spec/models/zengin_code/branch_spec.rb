@@ -9,7 +9,7 @@ RSpec.describe ZenginCode::Branch do
     ZenginCode::Bank.all.each_value do |bank|
       bank.branches.each_value do |branch|
         key = branch.cache_key
-        raise "#{key} is not unique" unless cache_keys.add?(key)
+        expect(cache_keys.add?(key)).not_to be_nil
       end
     end
   end
