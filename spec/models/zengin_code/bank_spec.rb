@@ -8,7 +8,7 @@ RSpec.describe ZenginCode::Bank do
 
     described_class.all.each_value do |bank|
       key = bank.cache_key
-      raise "#{key} is not unique" unless cache_keys.add?(key)
+      expect(cache_keys.add?(key)).not_to be_nil
     end
   end
 end
