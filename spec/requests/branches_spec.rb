@@ -21,7 +21,7 @@ RSpec.describe "banks api" do
       bank = ZenginCode::Bank.all.values.sample
       get "/zengin_code_rails/banks/#{bank.code}/branches.json"
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json).to include("branches")
     end
 
@@ -29,7 +29,7 @@ RSpec.describe "banks api" do
       bank = ZenginCode::Bank.all.values.sample
       get "/zengin_code_rails/banks/#{bank.code}/branches.json"
 
-      branches = JSON.parse(response.body)["branches"]
+      branches = response.parsed_body["branches"]
       expect(branches.size).to eq(bank.branches.size)
     end
 
@@ -37,7 +37,7 @@ RSpec.describe "banks api" do
       bank = ZenginCode::Bank.all.values.sample
       get "/zengin_code_rails/banks/#{bank.code}/branches.json"
 
-      branch = JSON.parse(response.body)["branches"].sample
+      branch = response.parsed_body["branches"].sample
       expect(branch).to include("code", "name", "kana", "hira", "roma")
     end
 

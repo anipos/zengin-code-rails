@@ -12,21 +12,21 @@ RSpec.describe "banks api" do
 
     it "contains banks key" do
       get "/zengin_code_rails/banks.json"
-      json = JSON.parse(response.body)
+      json = response.parsed_body
 
       expect(json).to include("banks")
     end
 
     it "returns all banks" do
       get "/zengin_code_rails/banks.json"
-      banks = JSON.parse(response.body)["banks"]
+      banks = response.parsed_body["banks"]
 
       expect(banks.size).to eq(ZenginCode::Bank.all.size)
     end
 
     it "returns all bank attributes" do
       get "/zengin_code_rails/banks.json"
-      bank = JSON.parse(response.body)["banks"].sample
+      bank = response.parsed_body["banks"].sample
 
       expect(bank).to include("code", "name", "kana", "hira", "roma")
     end
