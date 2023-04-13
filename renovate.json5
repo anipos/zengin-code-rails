@@ -2,5 +2,10 @@
   "extends": [
     "config:base"
   ],
-  "automerge": true
+  "automerge": true,
+  "prConcurrentLimit": 1,
+  "ruby": {
+    // Use dependabot.
+    "enabled": false,
+  },
 }
