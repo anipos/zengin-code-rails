@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Provides rails integration (such as API) of zengin_code gem."
   spec.homepage      = "https://github.com/anipos/zengin-code-rails"
   spec.license       = "Apache-2.0"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.3.0")
 
   spec.metadata = { "rubygems_mfa_required" => "true" }
 

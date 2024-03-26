@@ -3,9 +3,14 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@2.1.1
 
+executors:
+  ruby:
+    docker:
+      - image: cimg/ruby:3.3.0
+
 jobs:
   build:
-    executor: ruby/default
+    executor: ruby
     steps:
       - checkout
       - ruby/install-deps
@@ -18,7 +23,7 @@ jobs:
       - ruby/rspec-test
 
   publish:
-    executor: ruby/default
+    executor: ruby
     steps:
       - checkout
       - ruby/install-deps
