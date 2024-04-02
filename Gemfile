@@ -5,7 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in zengin_code_rails.gemspec
 gemspec
 
-gem "rake", "~> 13.1"
+gem "rake", "~> 13.2"
 
 gem "rspec", "~> 3.13"
 gem "rspec_junit_formatter"
