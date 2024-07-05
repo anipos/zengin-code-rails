@@ -1,0 +1,81 @@
+name: Publish and Tag zengin_code_rails
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check if zengin_code is updated
+      id: check_updated
+      run: |
+        if git diff --unified=0 HEAD^ HEAD -- Gemfile.lock | grep '^+.*zengin_code'; then
+          echo "updated=true" >> $GITHUB_ENV
+        else
+          echo "updated=false" >> $GITHUB_ENV
+        fi
+
+    - name: Increment version
+      if: env.updated == 'true'
+      run: |
+        current_version=$(grep 'spec.version' zengin_code_rails.gemspec | sed -E "s/.*'([0-9]+\.[0-9]+\.[0-9]+)'.*/\1/")
+        IFS='.' read -r -a version_parts <<< "$current_version"
+        new_version="${version_parts[0]}.${version_parts[1]}.$((version_parts[2]+1))"
+        sed -i "s/${current_version}/${new_version}/" zengin_code_rails.gemspec
+        echo "New version: $new_version"
+        echo "new_version=$new_version" >> $GITHUB_ENV
+
+    - name: Commit changes to new branch
+      if: env.updated == 'true'
+      id: commit_changes
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        branch_name="bump-zengin-code-${new_version}"
+        git checkout -b $branch_name
+        git add zengin_code_rails.gemspec
+        git commit -m "Bump version to $new_version"
+        git push origin $branch_name
+        echo "branch_name=$branch_name" >> $GITHUB_ENV
+
+    - name: Create Pull Request
+      if: env.updated == 'true'
+      run: |
+        gh pr create --title "Bump version to ${{ env.new_version }}" --body "This PR bumps the version to ${{ env.new_version }} due to the update of zengin_code." --head ${{ env.branch_name }} --base master
+
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Get current version
+      id: get_version
+      run: |
+        current_version=$(grep 'spec.version' zengin_code_rails.gemspec | sed -E "s/.*'([0-9]+\.[0-9]+\.[0-9]+)'.*/\1/")
+        echo "current_version=$current_version" >> $GITHUB_ENV
+
+    - name: Check if version was updated
+      id: check_version_updated
+      run: |
+        if git diff --unified=0 HEAD^ HEAD -- zengin_code_rails.gemspec | grep '^+.*spec.version.*'; then
+          echo "version_updated=true" >> $GITHUB_ENV
+        else
+          echo "version_updated=false" >> $GITHUB_ENV
+        fi
+
+    - name: Create tag
+      if: env.version_updated == 'true'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git tag "v${{ env.current_version }}"
+        git push origin "v${{ env.current_version }}"
