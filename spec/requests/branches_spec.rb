@@ -12,9 +12,9 @@ RSpec.describe "banks api" do
     end
 
     it "returns 404 not found when bank not found" do
-      expect {
-        get "/zengin_code_rails/banks/imaginary-bank-code/branches.json"
-      }.to raise_error(ActionController::RoutingError)
+      get "/zengin_code_rails/banks/imaginary-bank-code/branches.json"
+
+      expect(response).to have_http_status(:not_found)
     end
 
     it "contains branches keys" do
