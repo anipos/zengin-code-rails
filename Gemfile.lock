@@ -260,7 +260,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.7.3)
-    zengin_code (1.0.1.20250825)
+    zengin_code (1.0.1.20250929)
 
 PLATFORMS
   aarch64-linux
